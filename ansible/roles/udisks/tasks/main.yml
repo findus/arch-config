@@ -1,0 +1,12 @@
+---
+  - name: copy udev rule for ignoring usb devices
+    template:
+      src: 80-udisks2.rules.j2
+      dest: /etc/udev/rules.d/80-udisks2.rules
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+  
+  - name: "Reload udev rules"
+    become: yes
+    shell: udevadm trigger

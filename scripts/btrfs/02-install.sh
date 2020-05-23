@@ -9,11 +9,11 @@ print () {
 # Sort mirrors
 print "Sort mirrors"
 pacman -Sy reflector --noconfirm
-reflector --country France --country Germany --latest 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country Germany --country France --latest 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 # Install
 print "Install Arch Linux"
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode btrfs-progs grub efibootmgr grub-btrfs vim git ansible snapper connman wpa_supplicant
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode btrfs-progs grub efibootmgr grub-btrfs vim git ansible snapper connman dhcpcd 
 
 # Generate fstab
 print "Generate fstab"
@@ -26,7 +26,7 @@ cat > /mnt/etc/crypttab <<EOF
 swap	/dev/sda2   	/dev/urandom	swap,cipher=aes-xts-plain64,size=256
 EOF
 cat > /mnt/etc/crypttab.initramfs <<EOF
-universe   /dev/sda3  none  discard
+root   /dev/sda3  none  discard
 EOF
 
 # Set hostname
@@ -39,36 +39,38 @@ print "Configure hosts file"
 cat > /mnt/etc/hosts <<EOF
 #<ip-address>	<hostname.domain.org>	<hostname>
 127.0.0.1	    localhost   	        $hostname
-::1   		    localhost              	$hostname
+::1   		    localhost             $hostname
 EOF
 
 # Prepare locales and keymap
 print "Prepare locales and keymap"
-echo "KEYMAP=fr" > /mnt/etc/vconsole.conf
-sed -i 's/#\(fr_FR.UTF-8\)/\1/' /mnt/etc/locale.gen
-echo 'LANG="fr_FR.UTF-8"' > /mnt/etc/locale.conf
+echo "KEYMAP=de" > /mnt/etc/vconsole.conf
+sed -i 's/#\(de_DE.UTF-8\)/\1/' /mnt/etc/locale.gen
+echo 'LANG="de_DE.UTF-8"' > /mnt/etc/locale.conf
 
 # Prepare initramfs
 print "Prepare initramfs"
 cat > /mnt/etc/mkinitcpio.conf <<"EOF"
-MODULES=(i915 intel_agp)
+MODULES=(nouveau i915)
 BINARIES=(/usr/bin/btrfs)
 FILES=()
-HOOKS=(base systemd autodetect modconf block keyboard sd-vconsole sd-encrypt fsck filesystems)
+HOOKS=(base udev systemd autodetect modconf block keyboard sd-vconsole sd-encrypt fsck filesystems shutdown)
 COMPRESSION="lz4"
 EOF
 
 # Chroot and configure
 print "Chroot and configure system"
 
-arch-chroot /mnt /bin/bash -xe <<"EOF"
+read -p "Enter Your Name: "  user
+
+arch-chroot /mnt /bin/bash -xe <<EOF
 
   # Sync clock
   hwclock --systohc
 
   # Set date
   timedatectl set-ntp true
-  timedatectl set-timezone Europe/Paris
+  timedatectl set-timezone Europe/Berlin
 
   # Generate locale
   locale-gen
@@ -89,7 +91,8 @@ arch-chroot /mnt /bin/bash -xe <<"EOF"
   grub-mkconfig -o /boot/grub/grub.cfg
 
   # Create user
-  useradd -m user
+  echo $user > ~/tre
+  useradd -m $user
 
 EOF
 
@@ -99,43 +102,43 @@ arch-chroot /mnt /bin/passwd
 
 # Set user passwd
 print "Set user password"
-arch-chroot /mnt /bin/passwd user
+arch-chroot /mnt /bin/passwd $user
 
 # Configure sudo
-cat > /mnt/etc/sudoers <<"EOF"
+cat > /mnt/etc/sudoers <<EOF
 root ALL=(ALL) ALL
-user ALL=(ALL) ALL
+$user ALL=(ALL) ALL
 Defaults rootpw
 EOF
 
-# Configure network
-print "Configure network"
-cat > /mnt/etc/systemd/network/enoX.network <<"EOF"
-[Match]
-Name=en*
+# # Configure network
+# print "Configure network"
+# cat > /mnt/etc/systemd/network/enoX.network <<"EOF"
+# [Match]
+# Name=en*
 
-[Network]
-DHCP=ipv4
-IPForward=yes
+# [Network]
+# DHCP=ipv4
+# IPForward=yes
 
-[DHCP]
-UseDNS=no
-RouteMetric=10
-EOF
-cat > /mnt/etc/systemd/network/wlX.network <<"EOF"
-[Match]
-Name=wl*
+# [DHCP]
+# UseDNS=no
+# RouteMetric=10
+# EOF
+# cat > /mnt/etc/systemd/network/wlX.network <<"EOF"
+# [Match]
+# Name=wl*
 
-[Network]
-DHCP=ipv4
-IPForward=yes
+# [Network]
+# DHCP=ipv4
+# IPForward=yes
 
-[DHCP]
-UseDNS=no
-RouteMetric=20
-EOF
-systemctl enable systemd-networkd --root=/mnt
-systemctl disable systemd-networkd-wait-online --root=/mnt
+# [DHCP]
+# UseDNS=no
+# RouteMetric=20
+# EOF
+# systemctl enable systemd-networkd --root=/mnt
+# systemctl disable systemd-networkd-wait-online --root=/mnt
 
 cat > /mnt/etc/connman/main.conf <<"EOF"
 [General]

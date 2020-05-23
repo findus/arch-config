@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount veracrypt hdd
+
+[Service]
+Type=forking
+User={{user}}
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/{{user}}/.Xauthority
+ExecStart=/usr/local/bin/mountveracrypt %I
+TimeoutSec=infinity
+
+[Install]
+WantedBy=multi-user.target

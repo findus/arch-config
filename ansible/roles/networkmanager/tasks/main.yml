@@ -1,0 +1,9 @@
+---
+- name: enable user based scripts for networkmanager
+  copy:
+      src: 99-user-scripts
+      dest: /etc/NetworkManager/dispatcher.d/99-user-scripts
+      owner: root
+      group: root
+      mode: '0744'
+      backup: yes

@@ -13,7 +13,7 @@
       - ttf-jetbrains-mono # main font
       - noto-fonts         # unicode font
       # Shell
-      - fish               # powerful shell
+      - zsh                # powerful shell
       - git                #
       - exa                # powerful ls
       - bc                 # maths
@@ -23,8 +23,9 @@
       - neovim             # futur of vim
       - tree               #
       - vi                 #
+      - vim                #
       - man                #
-      - screen             # terminal multiplexer
+      - tmux               # terminal multiplexer
       - asciinema          # term recorder
       - expect             # automation tool
       - arch-audit         # list vulnerabilities
@@ -72,7 +73,7 @@
     shell: '{{shell}}'
 
 - name: set timezone
-  shell: timedatectl set-timezone Europe/Paris
+  shell: timedatectl set-timezone Europe/Berlin
 
 - name: set ntp
   shell: timedatectl set-ntp true

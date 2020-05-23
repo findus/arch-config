@@ -1,0 +1,4 @@
+{% for item in usb_ignore_serials %}
+ATTRS{serial}=="{{item}}" ENV{UDISKS_IGNORE}="1"
+{% endfor %}
+

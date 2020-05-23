@@ -1,0 +1,39 @@
+#!/bin/bash
+
+  # The DISPLAY variable tells VeraCrypt where to display the password prompt window
+  export DISPLAY=:0
+
+  # Change this to your UNIX username
+  LOGNAME={{user}}
+
+  # Xauthority is needed to be "authorized" to display something on the screen (password prompt)
+  export XAUTHORITY=/home/$LOGNAME/.Xauthority
+
+  # This tells us the address to a ssh-agent socket (how one can connect to ssh-agent)
+  #export SSH_AUTH_SOCK=`find /tmp -type s -name agent.\* 2>/dev/null`
+  
+  # DBUS address is needed to display notify-send messages
+  #GNOME_PID=$(pgrep Xorg)
+  #export DBUS_SESSION_BUS_ADDRESS=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$GNOME_PID/environ|cut -d= -f2-)
+
+  # Script execution, in order:
+		  # 
+  # - mount the encrypted drive (prompt for password)
+  # - close the Nautilus window that pops up for a new mounted device
+  # - add the SSH key to ssh-agent (prompt for password)
+  # - unmount the encrypted drive
+  # - display a notification that the key is loaded
+  # 
+  # if any of the above steps failed, display a failure notification
+  #sudo -u {{user}} DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send 'Hello world!' "$DEVNAME"
+  notify-send "Encrypted Device" " Enter Password to mount /dev/$11"
+  mkdir -p /mnt/external_encrypted
+  veracrypt /dev/$11 /mnt/external_encrypted
+
+  #killall nautilus && \
+  #ssh-add -c -t 8h /media/keyring/work/id_rsa && \
+  #veracrypt -d $DEVNAME && \
+  #sudo -u $LOGNAME notify-send -i media-removable 'SSH keys loaded' "`ssh-add -l`" && \
+  #exit
+  #sudo -u $LOGNAME notify-send -i emblem-unreadable 'Failed to load SSH keys' 'Investigate manually'
+ 

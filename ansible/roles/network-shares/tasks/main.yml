@@ -1,0 +1,32 @@
+---
+- name: Add automount entries to fstab
+  mount:
+    path: "{{ item.mount }}"
+    src: "{{ item.path }}"
+    fstype: "cifs"
+    opts: "{{ item.options }}"
+    state: present
+  with_items: 
+    - "{{ network_mounts }}"
+
+- name: Generate .smbcredential files
+  template:
+    src: smbcredentials.j2
+    dest: "/home/{{user}}/.smbcredentials_{{item.name}}"
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: u=rw,g=-,o=-
+  with_items:
+    - "{{ network_mounts }}"
+
+- name: Daemon reload
+  shell: systemctl daemon-reload
+
+- name: Daemon reload
+  shell: systemctl restart remote-fs.target
+
+- name: Daemon reload
+  shell: systemctl restart local-fs.target
+
+
+

@@ -24,8 +24,9 @@
       - lib32-virtualgl
       - vulkan-intel
       - lib32-vulkan-intel
-      - intel-media-driver
+      - libva-intel-driver
       - libva-utils
+      - xf86-video-intel
     state: present
 
 - name: install audio packages
@@ -44,29 +45,74 @@
       - imv # img visualizer
       - kitty # terminal emulator
       - code # code editor
-      - evince # pdf viewer
-      - firefox
-      - firefox-i18n-fr
+      - zathura # pdf viewer
+      - firefox-developer-edition
       - gimp # img editor
-      - kolourpaint # img editor
-      - shotwell # photo manager
-      - libreoffice-still-fr # libreoffice suite fr
-      - lollypop # music player
+      - mpd # music player
       - lxappearance # theme manager
       - mpv # video player
       - thunar # file manager
       - openvpn
       - playerctl # music player cli controller
-      - rdesktop # remote desktop client
-      - steam # games manager
-      - transmission-gtk # torrent downloader
+      - qbittorrent # torrent downloader
       - texlive-bin # latex
       - texlive-core # latex
       - texlive-latexextra # latex
-      - variety # random backgrounds
       - papirus-icon-theme # icon theme
-      - x2goclient 
       - youtube-dl
+      - ansible
+      - arc-gtk-theme
+      - audacity
+      - autossh
+      - bash-completion
+      - bemenu
+      - blender
+      - borg
+      - chromium
+      - cmake
+      - cmatrix
+      - code
+      - conky
+      - coreutils
+      - cronie
+      - cryptsetup
+      - distcc
+      - dunst
+      - feh
+      - figlet
+      - gparted
+      - homebank
+      - kdiff3
+      - krita
+      - kdenlive
+      - lsd
+      - mitmproxy
+      - ncmpcpp
+      - networkmanager
+      - ntfs-3g
+      - playerctl
+      - qiv
+      - qemu
+      - rofi
+      - signal-desktop
+      - streamlink
+      - syncthing
+      - syncthing-gtk
+      - telegram-desktop
+      - thunderbird
+      - tmux
+      - torsocks
+      - ttf-font-awesome
+      - udiskie
+      - unicode-emoji
+      - unrar
+      - veracrypt
+      - virt-manager
+      - vnstat
+      - weechat
+      - wl-clipboard
+      - wofi
+      - zsh
     state: present
 
 - name: add missing gpg keys for aur
@@ -74,7 +120,6 @@
   shell: gpg --recv '{{item}}'
   loop:
     - 4773BD5E130D1D45 # spotify
-    - F4B432D5D67990E3 # wob
 
   changed_when: false
 
@@ -83,27 +128,16 @@
   aur:
     skip_installed: true
     name:
-      - adapta-gtk-theme #https://github.com/Alexays/Waybar/issues/515
-      - equilux-theme 
-      - wdisplays-git # arandr for wayland
-      - wf-recorder-git # screen recorder for wayland
-      - grimshot-git # grim+slurp wrapper
-      - wofi-hg # rofi for wayland
-      - swaylock-fancy-git # locker for wayland
-      - wob # bars for wayland
-      - connman-gtk # connman gtk gui
-      - gnome-ssh-askpass2 # ssh askpass gui
-      - google-chrome
-      - adb-sync-git # android dir sync
-      - downgrade # package downgrader
-      - lf # cli file manager
-      - mindustry-bin # game
-      - minecraft-launcher # game
-      - molotov # french tv wrapper
-      - otf-font-awesome
-      - ttf-impallari-cabin-font # xelatex cv
-      - pastel # color viewer
-      - spotify # music player
-      - tiny-irc-client-git
-      - starleaf-breeze
-      - zoom
+      - ddccontrol
+      - downgrade
+      - freefilesync
+      - homesick
+      - jetbrains-toolbox
+      - mpdas
+      - mpdris2
+      - pikaur
+      - postman
+      - pulseaudio-ctl
+      - spotify
+      - thinkfan
+      - zola-bin

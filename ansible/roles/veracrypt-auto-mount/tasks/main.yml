@@ -1,0 +1,34 @@
+---
+  - name: copy systemd template for veracrypt automount
+    template:
+      src: veracrypt@.service.j2
+      dest: /etc/systemd/system/veracrypt@.service
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+
+  - name: copy veracrypt mount script
+    template:
+      src: mountveracrypt.j2
+      dest: /usr/local/bin/mountveracrypt
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+
+  - name: copy udev rule
+    template:
+      src: 11-veracrypt-mount.rules.j2
+      dest: /etc/udev/rules.d/11-veracrypt-mount.rules
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+    with_items: "{{ veracrypt_serials }}"
+
+  - name: "Reload udev rules"
+    become: yes
+    shell: udevadm trigger
+
+  - name: "Reload systemd"
+    become: yes
+    shell: systemctl daemon-reload
+    

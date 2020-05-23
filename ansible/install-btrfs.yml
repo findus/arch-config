@@ -3,9 +3,21 @@
   become: yes
 
   vars:
-    user: user
-    shell: /usr/bin/fish
+    user: x
+    shell: /usr/bin/zsh
     cmdline: ""
+    veracrypt_serials: 
+      - x
+    usb_ignore_serials:
+      - x
+    network_mounts:
+      - name: x
+        password: x
+        username: x
+        path: x
+        mount: x
+        options: x
+
 
   pre_tasks:
 
@@ -21,6 +33,10 @@
       when: ansible_virtualization_role == "guest"
 
   roles:
+    - { role: udisks, tags: udisks}
+    - { role: network-shares, tags: networkshares}
+    - { role: networkmanager, tags: networkmanager}
+    - { role: veracrypt-auto-mount, tags: veracrypt}
     - { role: pacman, tags: pacman }
     - { role: aur, tags: aur }
     - { role: btrfs/packages, tags: btrfs }
@@ -28,7 +44,7 @@
     - { role: base, tags: base }
     - { role: desktop, tags: desktop }
     - { role: virtualization, tags: virtualization }
-    - { role: containers, tags: containers }
-    - { role: recovery, tags: recovery }
+    # - { role: containers, tags: containers }
+    # - { role: recovery, tags: recovery }
     - { role: btrfs/grub, tags: boot }
     - { role: btrfs/initramfs, tags: boot }

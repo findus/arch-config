@@ -1,0 +1,4 @@
+{% for item in veracrypt_serials %}
+ACTION=="remove", KERNEL=="sd?", ATTRS{serial}=="{{ item }}", RUN+="/usr/bin/systemctl stop veracrypt@%k.service"
+ACTION=="add", KERNEL=="sd?", ATTRS{serial}=="{{ item }}", RUN+="/usr/bin/systemctl start veracrypt@%k.service"
+{% endfor %}
