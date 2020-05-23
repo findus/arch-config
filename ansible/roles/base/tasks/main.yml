@@ -37,6 +37,7 @@
       - tcpdump            # packet analyzer
       - whois              # query registry
       - stress             # stress test tool
+      - lsof
       # Disk
       - iotop              # disk "top"
       - ncdu               # disk usage analyzer
