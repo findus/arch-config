@@ -1,4 +1,8 @@
 ---
+- name: Upgrade pacman cache
+  pacman:
+    update_cache: yes
+
 - name: install desktop packages
   pacman:
     name:
@@ -143,4 +147,4 @@
       - spotify
       - thinkfan
       - zola-bin
-      - nordic-theme-git
+    #  - nordic-theme-git # Endless install

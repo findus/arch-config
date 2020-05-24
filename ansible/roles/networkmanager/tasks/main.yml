@@ -7,3 +7,9 @@
       group: root
       mode: '0744'
       backup: yes
+
+- name: enable vnstat
+  systemd:
+    name: vnstat
+    state: restart
+    enabled: yes
