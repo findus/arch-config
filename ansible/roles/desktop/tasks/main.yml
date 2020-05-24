@@ -119,6 +119,7 @@
       - wl-clipboard
       - wofi
       - zsh
+      - meson
     state: present
 
 - name: add missing gpg keys for aur
