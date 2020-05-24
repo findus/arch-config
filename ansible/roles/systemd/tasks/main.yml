@@ -1,0 +1,7 @@
+---
+- name: Reduce lid close suspend timeout in systemd logind
+  become: yes
+  lineinfile:
+    path: "/etc/systemd/logind.conf"
+    line: HoldoffTimeoutSec=2s
+    regexp: 'HoldoffTimeoutSec.*'
