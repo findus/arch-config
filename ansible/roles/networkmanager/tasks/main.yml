@@ -11,5 +11,11 @@
 - name: enable vnstat
   systemd:
     name: vnstat
-    state: restart
+    state: restarted
+    enabled: yes
+
+- name: enable networkmanager
+  systemd:
+    name: NetworkManager
+    state: restarted
     enabled: yes
