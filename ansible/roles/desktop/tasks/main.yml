@@ -148,4 +148,5 @@
       - spotify
       - thinkfan
       - zola-bin
+      - vundle
     #  - nordic-theme-git # Endless install
