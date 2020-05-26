@@ -1,4 +1,9 @@
 ---
+- name: create networkmanager dispatcher dir
+  file:
+    path: /etc/NetworkManager/dispatcher.d/
+    state: directory
+
 - name: enable user based scripts for networkmanager
   copy:
       src: 99-user-scripts
