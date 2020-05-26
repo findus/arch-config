@@ -1,11 +1,3 @@
----
-- name: install aur packages
-  become: no
-  aur:
-    skip_installed: true
-    name:
-      - starship-bin
-
 - name: install base packages
   pacman:
     name:
@@ -61,6 +53,9 @@
       - oath-toolkit       # otp tool
       - python2-pip        # python2 package manager
       - python-pip        # python3 package manager
+      #wayland
+      - qt5-wayland
+      - egl-wayland
     state: present
 
 - name: Configure root
