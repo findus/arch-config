@@ -101,6 +101,7 @@
       - streamlink
       - syncthing
       - syncthing-gtk
+      - swaylock
       - telegram-desktop
       - thunderbird
       - tmux
