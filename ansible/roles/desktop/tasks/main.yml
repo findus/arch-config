@@ -118,6 +118,7 @@
       - wofi
       - zsh
       - meson
+      - zathura-pdf-mupdf
     state: present
 
 - name: add missing gpg keys for aur
