@@ -25,10 +25,7 @@
   pacman:
     name:
       - mesa
-      - mesa-demos
-      - lib32-virtualgl
       - vulkan-intel
-      - lib32-vulkan-intel
       - libva-intel-driver
       - libva-utils
       - xf86-video-intel
