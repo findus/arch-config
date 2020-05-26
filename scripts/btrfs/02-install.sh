@@ -13,7 +13,7 @@ reflector --country Germany --country France --latest 6 --protocol https --sort 
 
 # Install
 print "Install Arch Linux"
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode btrfs-progs grub efibootmgr grub-btrfs vim git ansible snapper connman dhcpcd 
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode btrfs-progs grub efibootmgr grub-btrfs vim git ansible snapper dhcpcd 
 
 # Generate fstab
 print "Generate fstab"
@@ -143,15 +143,6 @@ EOF
 # systemctl enable systemd-networkd --root=/mnt
 # systemctl disable systemd-networkd-wait-online --root=/mnt
 
-cat > /mnt/etc/connman/main.conf <<"EOF"
-[General]
-PreferredTechnologies=ethernet,wifi
-NetworkInterfaceBlacklist = vmnet,vboxnet,virbr,ifb,ve-,vb-,docker,veth,eth,wlan
-AllowHostnameUpdates = false
-AllowDomainnameUpdates = false
-SingleConnectedTechnology = true
-EOF
-systemctl enable connman --root=/mnt
 
 # Configure DNS
 rm /mnt/etc/resolv.conf
